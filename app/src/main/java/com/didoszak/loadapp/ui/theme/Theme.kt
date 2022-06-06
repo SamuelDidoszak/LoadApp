@@ -29,11 +29,16 @@ private val LightColorPalette = lightColors(
 
 @Composable
 fun LoadAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
+    var colors = if (darkTheme) {
         DarkColorPalette
     } else {
         LightColorPalette
     }
+
+    /**
+     * Make app dark theme only
+     */
+    colors = DarkColorPalette
 
     MaterialTheme(
         colors = colors,
