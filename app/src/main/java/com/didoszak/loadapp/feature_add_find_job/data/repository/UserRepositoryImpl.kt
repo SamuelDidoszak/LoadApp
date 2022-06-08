@@ -8,16 +8,16 @@ class UserRepositoryImpl(
     private val dao: UserDao
 ) : UserRepository {
     override suspend fun getUserById(id: Int): User? {
-        TODO("Add api handling")
+        /*TODO Add api handling*/
         return dao.getUserById(id)
     }
 
     override suspend fun insertUser(user: User) {
-        TODO("Add api handling")
-        return insertUser(user)
+        /*TODO Add api handling*/
+        return dao.insertUser(user)
     }
 
     override suspend fun deleteUser(user: User) {
-        return deleteUser(user)
+        return dao.deleteUser(user)
     }
 }

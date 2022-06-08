@@ -79,106 +79,145 @@ fun LoginRegisterScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            /**
-             * Login / Register textfields
-             */
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(0.75f)
                     .padding(horizontal = 32.dp),
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceEvenly,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (viewModel.isLoginVisible.value) {
-                    // email
-                    var hint = loginTexts[0]
-                    HintTextField(
-                        text = viewModel.loginStates.email.value.text,
-                        isHintVisible = viewModel.loginStates.email.value.isHintVisible,
-                        hint = hint,
-                        hasError = viewModel.loginStates.email.value.hasError,
-                        textStyle = MaterialTheme.typography.h5,
-                        onValueChange = {
-                            Log.d("BRUH", "text typed in login")
-                            viewModel.onEvent(LoginRegisterEvent.EnteredEmail(it))
-                        },
-                        onFocusChange = {
-                            viewModel.onEvent(LoginRegisterEvent.ChangeEmailFocus(it))
-                        }
-                    )
-                    viewModel.loginStates.email.value.copy(hint = hint)
-                    // password
-                    hint = loginTexts[1]
-                    HintTextField(
-                        text = viewModel.loginStates.password.value.text,
-                        isHintVisible = viewModel.loginStates.password.value.isHintVisible,
-                        hint = hint,
-                        hasError = viewModel.loginStates.password.value.hasError,
-                        textStyle = MaterialTheme.typography.h5,
+                /**
+                 * Login / Register textfields
+                 */
+                if (viewModel.screenNumber.value == 0) {
+                    if (viewModel.isLoginVisible.value) {
+                        // email
+                        var hint = loginTexts[0]
+                        HintTextField(
+                            text = viewModel.loginStates.email.value.text,
+                            isHintVisible = viewModel.loginStates.email.value.isHintVisible,
+                            hint = hint,
+                            hasError = viewModel.loginStates.email.value.hasError,
+                            textStyle = MaterialTheme.typography.h5,
+                            onValueChange = {
+                                Log.d("BRUH", "text typed in login")
+                                viewModel.onEvent(LoginRegisterEvent.EnteredEmail(it))
+                            },
+                            onFocusChange = {
+                                viewModel.onEvent(LoginRegisterEvent.ChangeEmailFocus(it))
+                            }
+                        )
+                        viewModel.loginStates.email.value.copy(hint = hint)
+                        // password
+                        hint = loginTexts[1]
+                        HintTextField(
+                            text = viewModel.loginStates.password.value.text,
+                            isHintVisible = viewModel.loginStates.password.value.isHintVisible,
+                            hint = hint,
+                            hasError = viewModel.loginStates.password.value.hasError,
+                            textStyle = MaterialTheme.typography.h5,
 
-                        onValueChange = {
-                            viewModel.onEvent(LoginRegisterEvent.EnteredPassword(it))
-                        },
-                        onFocusChange = {
-                            viewModel.onEvent(LoginRegisterEvent.ChangePasswordFocus(it))
-                        }
-                    )
-                    viewModel.loginStates.password.value.copy(hint = hint)
-                } else {
-                    // email
-                    var hint = registerTexts[0]
-                    HintTextField(
-                        text = viewModel.registerStates.email.value.text,
-                        isHintVisible = viewModel.registerStates.email.value.isHintVisible,
-                        hint = hint,
-                        hasError = viewModel.registerStates.email.value.hasError,
-                        textStyle = MaterialTheme.typography.h5,
+                            onValueChange = {
+                                viewModel.onEvent(LoginRegisterEvent.EnteredPassword(it))
+                            },
+                            onFocusChange = {
+                                viewModel.onEvent(LoginRegisterEvent.ChangePasswordFocus(it))
+                            }
+                        )
+                        viewModel.loginStates.password.value.copy(hint = hint)
+                    } else {
+                        // email
+                        var hint = registerTexts[0]
+                        HintTextField(
+                            text = viewModel.registerStates.email.value.text,
+                            isHintVisible = viewModel.registerStates.email.value.isHintVisible,
+                            hint = hint,
+                            hasError = viewModel.registerStates.email.value.hasError,
+                            textStyle = MaterialTheme.typography.h5,
 
-                        onValueChange = {
-                            Log.d("BRUH", "text typed in register")
-                            viewModel.onEvent(LoginRegisterEvent.EnteredEmail(it))
-                        },
-                        onFocusChange = {
-                            viewModel.onEvent(LoginRegisterEvent.ChangeEmailFocus(it))
-                        }
-                    )
-                    viewModel.registerStates.email.value.copy(hint = hint)
-                    // password
-                    hint = registerTexts[1]
-                    HintTextField(
-                        text = viewModel.registerStates.password.value.text,
-                        isHintVisible = viewModel.registerStates.password.value.isHintVisible,
-                        hint = hint,
-                        hasError = viewModel.registerStates.password.value.hasError,
-                        textStyle = MaterialTheme.typography.h5,
+                            onValueChange = {
+                                Log.d("BRUH", "text typed in register")
+                                viewModel.onEvent(LoginRegisterEvent.EnteredEmail(it))
+                            },
+                            onFocusChange = {
+                                viewModel.onEvent(LoginRegisterEvent.ChangeEmailFocus(it))
+                            }
+                        )
+                        viewModel.registerStates.email.value.copy(hint = hint)
+                        // password
+                        hint = registerTexts[1]
+                        HintTextField(
+                            text = viewModel.registerStates.password.value.text,
+                            isHintVisible = viewModel.registerStates.password.value.isHintVisible,
+                            hint = hint,
+                            hasError = viewModel.registerStates.password.value.hasError,
+                            textStyle = MaterialTheme.typography.h5,
 
-                        onValueChange = {
-                            viewModel.onEvent(LoginRegisterEvent.EnteredPassword(it))
-                        },
-                        onFocusChange = {
-                            viewModel.onEvent(LoginRegisterEvent.ChangePasswordFocus(it))
-                        }
-                    )
-                    viewModel.registerStates.password.value.copy(hint = hint)
-                    // repeat password
-                    hint = registerTexts[2]
-                    HintTextField(
-                        text = viewModel.registerStates.repeatPassword.value.text,
-                        isHintVisible = viewModel.registerStates.repeatPassword.value.isHintVisible,
-                        hint = hint,
-                        hasError = viewModel.registerStates.repeatPassword.value.hasError,
-                        textStyle = MaterialTheme.typography.h5,
+                            onValueChange = {
+                                viewModel.onEvent(LoginRegisterEvent.EnteredPassword(it))
+                            },
+                            onFocusChange = {
+                                viewModel.onEvent(LoginRegisterEvent.ChangePasswordFocus(it))
+                            }
+                        )
+                        viewModel.registerStates.password.value.copy(hint = hint)
+                        // repeat password
+                        hint = registerTexts[2]
+                        HintTextField(
+                            text = viewModel.registerStates.repeatPassword.value.text,
+                            isHintVisible = viewModel.registerStates.repeatPassword.value.isHintVisible,
+                            hint = hint,
+                            hasError = viewModel.registerStates.repeatPassword.value.hasError,
+                            textStyle = MaterialTheme.typography.h5,
 
-                        onValueChange = {
-                            viewModel.onEvent(LoginRegisterEvent.EnteredRepeatPassword(it))
-                        },
-                        onFocusChange = {
-                            viewModel.onEvent(LoginRegisterEvent.ChangeRepeatPasswordFocus(it))
+                            onValueChange = {
+                                viewModel.onEvent(LoginRegisterEvent.EnteredRepeatPassword(it))
+                            },
+                            onFocusChange = {
+                                viewModel.onEvent(
+                                    LoginRegisterEvent.ChangeRepeatPasswordFocus(
+                                        it
+                                    )
+                                )
+                            }
+                        )
+                        viewModel.registerStates.repeatPassword.value.copy(hint = hint)
+                    }
+                }
+                /**
+                 * Driver / Company screen
+                 */
+                else if (viewModel.screenNumber.value == 1) {
+                    com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.TextButton(
+                        text = context.getString(R.string.Driver),
+                        focused = viewModel.isDriverClicked.value,
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(128.dp),
+                        onClick = {
+                            viewModel.onEvent(LoginRegisterEvent.ClickedDriver)
                         }
                     )
-                    viewModel.registerStates.repeatPassword.value.copy(hint = hint)
+                    com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.TextButton(
+                        text = context.getString(R.string.Company),
+                        focused = viewModel.isCompanyClicked.value,
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(128.dp),
+                        onClick = {
+                            viewModel.onEvent(LoginRegisterEvent.ClickedCompany)
+                        }
+                    )
+                }
+                /**
+                 * Languages screen
+                 */
+                else if (viewModel.screenNumber.value == 2) {
+
                 }
             }
+
             Spacer(modifier = Modifier.height(16.dp))
             /**
              * Sign in / Next buttons at the bottom
@@ -192,6 +231,21 @@ fun LoginRegisterScreen(
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.Center
             ) {
+                /**
+                 * Back button for every view except login / register screen
+                 */
+                if (viewModel.screenNumber.value != 0) {
+                    com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.TextButton(
+                        text = context.getString(R.string.Back),
+                        isColorButton = true,
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(128.dp),
+                        onClick = {
+                            viewModel.onEvent(LoginRegisterEvent.Back)
+                        }
+                    )
+                }
                 if(viewModel.isLoginVisible.value) {
                     com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.TextButton(
                         text = context.getString(R.string.Sign_in),
@@ -216,7 +270,6 @@ fun LoginRegisterScreen(
                     )
                 }
             }
-
         }
     }
 }

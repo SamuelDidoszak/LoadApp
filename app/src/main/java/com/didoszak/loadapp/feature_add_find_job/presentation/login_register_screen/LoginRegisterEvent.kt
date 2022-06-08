@@ -12,4 +12,8 @@ sealed class LoginRegisterEvent {
     data class EnteredRepeatPassword(val value: String): LoginRegisterEvent()
     object SignIn: LoginRegisterEvent()
     object Next: LoginRegisterEvent()
+    object Back: LoginRegisterEvent()
+
+    object ClickedDriver: LoginRegisterEvent()
+    object ClickedCompany: LoginRegisterEvent()
 }

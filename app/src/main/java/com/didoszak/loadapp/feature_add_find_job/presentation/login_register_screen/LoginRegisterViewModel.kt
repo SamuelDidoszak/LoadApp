@@ -21,15 +21,39 @@ class LoginRegisterViewModel @Inject constructor(
     private val _isLoginVisible = mutableStateOf(true)
     val isLoginVisible: State<Boolean> = _isLoginVisible
 
-    val loginStates = LoginStates()
+    private val _screenNumber = mutableStateOf(0)
+    val screenNumber: State<Int> = _screenNumber
+    private var _previousScreenNumber = 0
+    private fun changeScreenNumber(number: Int, previousScreen: Boolean = false) {
+        if(previousScreen) {
+            _screenNumber.value = _previousScreenNumber
+            return
+        }
 
+        if (screenNumber.value != 0)
+            _previousScreenNumber = screenNumber.value
+
+        _screenNumber.value = number
+    }
+
+    val loginStates = LoginStates()
     val registerStates = RegisterStates()
+
+    // screen 1 variables
+    private val _isDriverClicked = mutableStateOf(false)
+    val isDriverClicked: State<Boolean> = _isDriverClicked
+    private val _isCompanyClicked = mutableStateOf(false)
+    val isCompanyClicked: State<Boolean> = _isCompanyClicked
+
 
     fun onEvent(event: LoginRegisterEvent) {
         when(event) {
             is LoginRegisterEvent.ClickedButton -> {
                 _isLoginVisible.value = event.isLogin
-                Log.d(null, "clicked: " + event.isLogin)
+                if(event.isLogin)
+                    changeScreenNumber(0)
+                else
+                    changeScreenNumber(0, true)
             }
 
             is LoginRegisterEvent.ChangeEmailFocus -> {
@@ -123,10 +147,7 @@ class LoginRegisterViewModel @Inject constructor(
                             )
                         )
                     } catch (e: InvalidUserException) {
-                        Log.d("ERROR", e.message.toString())
-
                         if (e.cause?.message.equals("email")) {
-                            Log.d("ERROR", "ARHDTYONADHYOINARDANYDOUAN:DUNARWd")
                             loginStates.changeEmail(loginStates.email.value.copy(
                                 hasError = true
                             ))
@@ -149,8 +170,90 @@ class LoginRegisterViewModel @Inject constructor(
                 /*TODO Send data to the server*/
             }
             is LoginRegisterEvent.Next -> {
-                /*TODO Parse data*/
+                when (screenNumber.value) {
+                    0 -> parseRegisterScreen()
+                    1 -> parseDriverCompanyScreen()
+                }
+            }
+
+            is LoginRegisterEvent.Back -> {
+                changeScreenNumber(screenNumber.value - 1)
+            }
+
+            is LoginRegisterEvent.ClickedDriver -> {
+                _isDriverClicked.value = !isDriverClicked.value
+                _isCompanyClicked.value = false
+            }
+            is LoginRegisterEvent.ClickedCompany -> {
+                _isDriverClicked.value = false
+                _isCompanyClicked.value = !isCompanyClicked.value
             }
         }
+    }
+
+    private fun parseRegisterScreen() {
+        viewModelScope.launch {
+            try {
+                if(registerStates.password.value.text != registerStates.repeatPassword.value.text)
+                    throw InvalidUserException("Passwords must be the same", Throwable("repeatPassword"))
+                userUseCases.insertUser(
+                    User(
+                        email = registerStates.email.value.text,
+                        password = registerStates.password.value.text
+                    )
+                )
+                changeScreenNumber(1)
+            } catch (e: InvalidUserException) {
+                Log.d("ERROR", e.message.toString())
+                Log.d("email", registerStates.email.value.text)
+                if (e.cause?.message.equals("email")) {
+                    registerStates.changeEmail(registerStates.email.value.copy(
+                        hasError = true
+                    ))
+                } else if(registerStates.email.value.hasError) {
+                    registerStates.changeEmail(registerStates.email.value.copy(
+                        hasError = false
+                    ))
+                }
+                if (e.cause?.message.equals("password")) {
+                    registerStates.changePassword(registerStates.password.value.copy(
+                        hasError = true
+                    ))
+                } else if(registerStates.password.value.hasError) {
+                    registerStates.changePassword(registerStates.password.value.copy(
+                        hasError = false
+                    ))
+                }
+                if (e.cause?.message.equals("repeatPassword")) {
+                    registerStates.changeRepeatPassword(registerStates.repeatPassword.value.copy(
+                        hasError = true
+                    ))
+                } else if(registerStates.repeatPassword.value.hasError) {
+                    registerStates.changeRepeatPassword(registerStates.repeatPassword.value.copy(
+                        hasError = false
+                    ))
+                }
+            }
+        }
+    }
+
+    private fun parseDriverCompanyScreen() {
+        val typeId: Int
+        if (isDriverClicked.value)
+            typeId = 0
+        else if (isCompanyClicked.value)
+            typeId = 1
+        else
+            return
+        viewModelScope.launch {
+            userUseCases.insertUser(
+                User(
+                    email = loginStates.email.value.text,
+                    password = loginStates.password.value.text,
+                    typeId = typeId
+                )
+            )
+        }
+        changeScreenNumber(2)
     }
 }
