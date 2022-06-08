@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
@@ -31,7 +32,7 @@ fun HintTextField(
     singleLine: Boolean = true,
 
     isHintVisible: Boolean = true,
-    color: Color = MaterialTheme.colors.surface,
+    hasError: Boolean = false,
     elevation: Dp = 2.dp,
 
     modifier: Modifier = Modifier,
@@ -43,7 +44,8 @@ fun HintTextField(
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(
             width = if (focused) 1.dp else 1.dp,
-            color = if (focused) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
+            color = if (hasError) MaterialTheme.colors.error
+                else if (focused) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
         ),
         elevation = elevation,
         modifier = Modifier

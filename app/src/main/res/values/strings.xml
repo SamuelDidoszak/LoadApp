@@ -1,10 +1,10 @@
 <resources>
     <string name="LoadApp">LoadApp</string>
     // Login / Register strings
-    <string name="Log_In">Log In</string>
-    <string name="Register">Register</string>
-    <string name="Login">Login</string>
-    <string name="Email">Email</string>
+    <string name="Sign_in">Sign in</string>
+    <string name="Sign_up">Sign up</string>
+    <string name="email">email</string>
     <string name="Password">Password</string>
     <string name="Repeat_Password">Repeat Password</string>
+    <string name="Next">Next</string>
 </resources>
