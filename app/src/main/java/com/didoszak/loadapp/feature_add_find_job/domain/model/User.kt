@@ -9,8 +9,10 @@ data class User(
     @PrimaryKey val email: String,
     val password: String,
     val typeId: Int? = null,
-    val organizationId: Int? = null,
-    val info: String? = null
+    val organizationName: Int? = null,
+    val organizationNIP: Int? = null,
+    val info: String? = null,
+    val image: String? = null,
 )
 
 class InvalidUserException(message: String, cause: Throwable): Exception(message, cause)

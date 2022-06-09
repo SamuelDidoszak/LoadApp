@@ -203,7 +203,7 @@ fun LoginRegisterScreen(
                         text = context.getString(R.string.Company),
                         focused = viewModel.isCompanyClicked.value,
                         modifier = Modifier
-                            .height(50.dp)
+                            .height(70.dp)
                             .width(128.dp),
                         onClick = {
                             viewModel.onEvent(LoginRegisterEvent.ClickedCompany)

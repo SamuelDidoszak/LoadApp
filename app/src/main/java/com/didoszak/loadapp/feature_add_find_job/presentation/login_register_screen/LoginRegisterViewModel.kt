@@ -6,8 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.didoszak.loadapp.feature_add_find_job.data.model.Language
+import com.didoszak.loadapp.feature_add_find_job.data.model.Qualification
 import com.didoszak.loadapp.feature_add_find_job.domain.model.InvalidUserException
 import com.didoszak.loadapp.feature_add_find_job.domain.model.User
+import com.didoszak.loadapp.feature_add_find_job.domain.use_case.ApiUseCases.ApiUseCases
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.user_use_cases.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginRegisterViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val userUseCases: UserUseCases
+    private val userUseCases: UserUseCases,
+    private val apiUseCases: ApiUseCases
 ) :ViewModel() {
     private val _isLoginVisible = mutableStateOf(true)
     val isLoginVisible: State<Boolean> = _isLoginVisible
@@ -44,6 +48,27 @@ class LoginRegisterViewModel @Inject constructor(
     val isDriverClicked: State<Boolean> = _isDriverClicked
     private val _isCompanyClicked = mutableStateOf(false)
     val isCompanyClicked: State<Boolean> = _isCompanyClicked
+
+    init {
+        viewModelScope.launch {
+            val languageList: List<Language> = fetchLanguages()
+            languageList.forEach { language ->
+                Log.d("API", language.name + ", " + language.short_name)
+            }
+            val qualificationList: List<Qualification> = fetchQualifications()
+            languageList.forEach { qualification ->
+                Log.d("API", qualification.name + ", " + qualification.short_name)
+            }
+        }
+    }
+
+    private suspend fun fetchLanguages(): List<Language> {
+        return apiUseCases.getAllLanguages().data ?: listOf()
+    }
+
+    private suspend fun fetchQualifications(): List<Qualification> {
+        return apiUseCases.getAllQualifications().data ?: listOf()
+    }
 
 
     fun onEvent(event: LoginRegisterEvent) {
