@@ -6,12 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.didoszak.loadapp.feature_add_find_job.data.model.Language
-import com.didoszak.loadapp.feature_add_find_job.data.model.Qualification
 import com.didoszak.loadapp.feature_add_find_job.domain.model.InvalidUserException
 import com.didoszak.loadapp.feature_add_find_job.domain.model.User
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.ApiUseCases.ApiUseCases
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.user_use_cases.UserUseCases
+import com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.states.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,6 +36,11 @@ class LoginRegisterViewModel @Inject constructor(
         if (screenNumber.value != 0)
             _previousScreenNumber = screenNumber.value
 
+        if (screenNumber.value == 4 && number == 3) {
+            _screenNumber.value = 1
+            return
+        }
+
         _screenNumber.value = number
     }
 
@@ -49,27 +53,31 @@ class LoginRegisterViewModel @Inject constructor(
     private val _isCompanyClicked = mutableStateOf(false)
     val isCompanyClicked: State<Boolean> = _isCompanyClicked
 
-    init {
+    // data for driver
+    private val _languagesState = mutableStateOf(LanguagesState())
+    val languagesState: State<LanguagesState> = _languagesState
+
+    private val _qualificationsState = mutableStateOf(QualificationsState())
+    val qualificationsState: State<QualificationsState> = _qualificationsState
+
+    private fun fetchLanguages(){
         viewModelScope.launch {
-            val languageList: List<Language> = fetchLanguages()
-            languageList.forEach { language ->
-                Log.d("API", language.name + ", " + language.short_name)
-            }
-            val qualificationList: List<Qualification> = fetchQualifications()
-            languageList.forEach { qualification ->
-                Log.d("API", qualification.name + ", " + qualification.short_name)
-            }
+            _languagesState.value = languagesState.value.copy(
+                languageList = apiUseCases.getAllLanguages().data ?: listOf()
+            )
         }
     }
 
-    private suspend fun fetchLanguages(): List<Language> {
-        return apiUseCases.getAllLanguages().data ?: listOf()
+    private fun fetchQualifications() {
+        viewModelScope.launch {
+            _qualificationsState.value = qualificationsState.value.copy(
+                qualificationList = apiUseCases.getAllQualifications().data ?: listOf()
+            )
+        }
     }
 
-    private suspend fun fetchQualifications(): List<Qualification> {
-        return apiUseCases.getAllQualifications().data ?: listOf()
-    }
-
+    // data for company register
+    val companyRegisterStates = CompanyRegisterStates()
 
     fun onEvent(event: LoginRegisterEvent) {
         when(event) {
@@ -198,6 +206,8 @@ class LoginRegisterViewModel @Inject constructor(
                 when (screenNumber.value) {
                     0 -> parseRegisterScreen()
                     1 -> parseDriverCompanyScreen()
+                    2 -> parseLanguagesScreen()
+                    3 -> parseQualificationsScreen()
                 }
             }
 
@@ -208,10 +218,59 @@ class LoginRegisterViewModel @Inject constructor(
             is LoginRegisterEvent.ClickedDriver -> {
                 _isDriverClicked.value = !isDriverClicked.value
                 _isCompanyClicked.value = false
+                if(languagesState.value.languageList.isEmpty())
+                    fetchLanguages()
             }
             is LoginRegisterEvent.ClickedCompany -> {
                 _isDriverClicked.value = false
                 _isCompanyClicked.value = !isCompanyClicked.value
+            }
+
+            is LoginRegisterEvent.ActivateLanguage -> {
+                val id = event.id
+                _languagesState.value = languagesState.value.copy(
+                    activeLanguages = if (languagesState.value.activeLanguages.indexOf(id) == -1)
+                        languagesState.value.activeLanguages.plus(id) else
+                        languagesState.value.activeLanguages.minus(id)
+                )
+            }
+
+            is LoginRegisterEvent.ActivateQualification -> {
+                val id = event.id
+                _qualificationsState.value = qualificationsState.value.copy(
+                    activeQualifications = if (qualificationsState.value.activeQualifications.indexOf(id) == -1)
+                        qualificationsState.value.activeQualifications.plus(id) else
+                        qualificationsState.value.activeQualifications.minus(id)
+                )
+            }
+
+            is LoginRegisterEvent.ChangeCompanyNameFocus -> {
+                companyRegisterStates.changeCompanyName(
+                    companyRegisterStates.companyName.value.copy(
+                        isHintVisible = !event.focusState.isFocused &&
+                                companyRegisterStates.companyName.value.text.isBlank()
+                    )
+                )
+            }
+            is LoginRegisterEvent.EnteredCompanyName -> {
+                companyRegisterStates.changeCompanyName(
+                    companyRegisterStates.companyName.value.copy(
+                        text = event.value
+                    ))
+            }
+            is LoginRegisterEvent.ChangeNipFocus -> {
+                companyRegisterStates.changeNip(
+                    companyRegisterStates.nip.value.copy(
+                        isHintVisible = !event.focusState.isFocused &&
+                                companyRegisterStates.nip.value.text.isBlank()
+                    )
+                )
+            }
+            is LoginRegisterEvent.EnteredNip -> {
+                companyRegisterStates.changeNip(
+                    companyRegisterStates.nip.value.copy(
+                        text = event.value
+                    ))
             }
         }
     }
@@ -265,20 +324,35 @@ class LoginRegisterViewModel @Inject constructor(
     private fun parseDriverCompanyScreen() {
         val typeId: Int
         if (isDriverClicked.value)
-            typeId = 0
-        else if (isCompanyClicked.value)
             typeId = 1
+        else if (isCompanyClicked.value)
+            typeId = 2
         else
             return
         viewModelScope.launch {
             userUseCases.insertUser(
                 User(
-                    email = loginStates.email.value.text,
-                    password = loginStates.password.value.text,
+                    email = registerStates.email.value.text,
+                    password = registerStates.password.value.text,
                     typeId = typeId
                 )
             )
         }
-        changeScreenNumber(2)
+        if (typeId == 1)
+            changeScreenNumber(2)
+        else
+            changeScreenNumber(4)
+    }
+
+    private fun parseLanguagesScreen() {
+        /*TODO Save ids of chosen languages*/
+
+        changeScreenNumber(3)
+        fetchQualifications()
+    }
+
+    private fun parseQualificationsScreen() {
+        /*TODO Save ids of chosen qualifications*/
+
     }
 }

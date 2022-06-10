@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.didoszak.loadapp.feature_add_find_job.presentation.job_offers.JobOffersScreen
 import com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.LoginRegisterScreen
 import com.didoszak.loadapp.feature_add_find_job.presentation.util.Screen
 import com.didoszak.loadapp.ui.theme.LoadAppTheme
@@ -32,12 +33,14 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.LoginRegisterScreen.route
+                        startDestination = Screen.JobOffersScreen.route
                     ) {
                         composable(route = Screen.LoginRegisterScreen.route) {
                             LoginRegisterScreen(navController = navController)
-                    }
-
+                        }
+                        composable(route = Screen.JobOffersScreen.route) {
+                            JobOffersScreen(navController = navController)
+                        }
                 }
             }
         }

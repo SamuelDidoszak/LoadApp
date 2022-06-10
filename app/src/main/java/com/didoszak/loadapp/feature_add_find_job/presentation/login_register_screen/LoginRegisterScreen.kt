@@ -2,6 +2,8 @@ package com.didoszak.loadapp.feature_add_find_job.presentation.login_register_sc
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -101,7 +103,6 @@ fun LoginRegisterScreen(
                             hasError = viewModel.loginStates.email.value.hasError,
                             textStyle = MaterialTheme.typography.h5,
                             onValueChange = {
-                                Log.d("BRUH", "text typed in login")
                                 viewModel.onEvent(LoginRegisterEvent.EnteredEmail(it))
                             },
                             onFocusChange = {
@@ -137,7 +138,6 @@ fun LoginRegisterScreen(
                             textStyle = MaterialTheme.typography.h5,
 
                             onValueChange = {
-                                Log.d("BRUH", "text typed in register")
                                 viewModel.onEvent(LoginRegisterEvent.EnteredEmail(it))
                             },
                             onFocusChange = {
@@ -192,8 +192,9 @@ fun LoginRegisterScreen(
                     com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.TextButton(
                         text = context.getString(R.string.Driver),
                         focused = viewModel.isDriverClicked.value,
+                        textStyle = MaterialTheme.typography.h5,
                         modifier = Modifier
-                            .height(50.dp)
+                            .height(65.dp)
                             .width(128.dp),
                         onClick = {
                             viewModel.onEvent(LoginRegisterEvent.ClickedDriver)
@@ -202,8 +203,9 @@ fun LoginRegisterScreen(
                     com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.TextButton(
                         text = context.getString(R.string.Company),
                         focused = viewModel.isCompanyClicked.value,
+                        textStyle = MaterialTheme.typography.h5,
                         modifier = Modifier
-                            .height(70.dp)
+                            .height(65.dp)
                             .width(128.dp),
                         onClick = {
                             viewModel.onEvent(LoginRegisterEvent.ClickedCompany)
@@ -214,7 +216,70 @@ fun LoginRegisterScreen(
                  * Languages screen
                  */
                 else if (viewModel.screenNumber.value == 2) {
-
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(viewModel.languagesState.value.languageList) { language ->
+                            com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.ListItem(
+                                id = language.id,
+                                text = language.name,
+                                image = language.image,
+                                active = viewModel.languagesState.value.activeLanguages.indexOf(language.id) != -1,
+                                onClick = {
+                                    viewModel.onEvent(LoginRegisterEvent.ActivateLanguage(language.id))
+                                }
+                            )
+                        }
+                    }
+                }
+                /**
+                 * Qualifications screen
+                 */
+                else if (viewModel.screenNumber.value == 3) {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(viewModel.qualificationsState.value.qualificationList) { qualification ->
+                            com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.ListItem(
+                                id = qualification.id,
+                                text = qualification.name,
+                                image = qualification.image,
+                                active = viewModel.qualificationsState.value.activeQualifications.indexOf(qualification.id) != -1,
+                                onClick = {
+                                    viewModel.onEvent(LoginRegisterEvent.ActivateQualification(qualification.id))
+                                }
+                            )
+                        }
+                    }
+                }
+                /**
+                 * Company register screen
+                 */
+                else if (viewModel.screenNumber.value == 4) {
+                    HintTextField(
+                        text = viewModel.loginStates.email.value.text,
+                        isHintVisible = viewModel.loginStates.email.value.isHintVisible,
+                        hint = context.getString(R.string.Company_name),
+                        hasError = viewModel.loginStates.email.value.hasError,
+                        textStyle = MaterialTheme.typography.h5,
+                        onValueChange = {
+                            Log.d("BRUH", "text typed in login")
+                            viewModel.onEvent(LoginRegisterEvent.EnteredEmail(it))
+                        },
+                        onFocusChange = {
+                            viewModel.onEvent(LoginRegisterEvent.ChangeEmailFocus(it))
+                        }
+                    )
+                    HintTextField(
+                        text = viewModel.loginStates.email.value.text,
+                        isHintVisible = viewModel.loginStates.email.value.isHintVisible,
+                        hint = context.getString(R.string.NIP),
+                        hasError = viewModel.loginStates.email.value.hasError,
+                        textStyle = MaterialTheme.typography.h5,
+                        onValueChange = {
+                            Log.d("BRUH", "text typed in login")
+                            viewModel.onEvent(LoginRegisterEvent.EnteredEmail(it))
+                        },
+                        onFocusChange = {
+                            viewModel.onEvent(LoginRegisterEvent.ChangeEmailFocus(it))
+                        }
+                    )
                 }
             }
 
@@ -225,9 +290,6 @@ fun LoginRegisterScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-//                    .fillMaxHeight(0.15f)
-//                    .height(IntrinsicSize.Min)
-//                    .defaultMinSize(minHeight = 120.dp),
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -257,7 +319,7 @@ fun LoginRegisterScreen(
                             viewModel.onEvent(LoginRegisterEvent.SignIn)
                         }
                     )
-                } else {
+                } else if (viewModel.screenNumber.value != 3){
                     com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.TextButton(
                         text = context.getString(R.string.Next),
                         isColorButton = true,
@@ -266,6 +328,17 @@ fun LoginRegisterScreen(
                             .width(128.dp),
                         onClick = {
                             viewModel.onEvent(LoginRegisterEvent.Next)
+                        }
+                    )
+                } else {
+                    com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.TextButton(
+                        text = context.getString(R.string.Finish),
+                        isColorButton = true,
+                        modifier = Modifier
+                            .height(80.dp)
+                            .width(128.dp),
+                        onClick = {
+                            viewModel.onEvent(LoginRegisterEvent.Finish)
                         }
                     )
                 }

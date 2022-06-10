@@ -1,7 +1,8 @@
-package com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen
+package com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.states
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.states.HintTextFieldState
 
 class LoginStates {
     private val _email = mutableStateOf(HintTextFieldState())

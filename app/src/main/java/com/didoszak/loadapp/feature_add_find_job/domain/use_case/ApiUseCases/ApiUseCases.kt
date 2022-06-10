@@ -4,5 +4,6 @@ data class ApiUseCases (
     val getAllLanguages: GetAllLanguages,
 //    val getLanguage: GetLanguage,
     val getAllQualifications: GetAllQualifications,
-//    val getQualification: GetQualification
+//    val getQualification: GetQualification,
+    val getRoutes: GetRoutes
 )

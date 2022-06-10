@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 fun HintTextField(
     text: String = "",
     hint: String = "",
-    textStyle: TextStyle = TextStyle(),
+    textStyle: TextStyle,
     singleLine: Boolean = true,
 
     isHintVisible: Boolean = true,
@@ -41,7 +41,7 @@ fun HintTextField(
     onFocusChange: (FocusState) -> Unit
 ) {
     Surface (
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(12.dp),
         border = BorderStroke(
             width = if (focused) 1.dp else 1.dp,
             color = if (hasError) MaterialTheme.colors.error
@@ -50,13 +50,13 @@ fun HintTextField(
         elevation = elevation,
         modifier = Modifier
             .padding(4.dp)
-            .shadow(16.dp, RectangleShape)
+            .shadow(8.dp, RectangleShape)
             .composed { modifier }
     ) {
         BasicTextField(
             value = text,
             onValueChange = onValueChange,
-            textStyle = textStyle,
+            textStyle = textStyle.copy(color = MaterialTheme.colors.onSurface),
             singleLine = singleLine,
             modifier = Modifier
                 .fillMaxWidth()

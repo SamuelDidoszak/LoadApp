@@ -11,6 +11,7 @@ import com.didoszak.loadapp.feature_add_find_job.domain.repository.UserRepositor
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.ApiUseCases.ApiUseCases
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.ApiUseCases.GetAllLanguages
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.ApiUseCases.GetAllQualifications
+import com.didoszak.loadapp.feature_add_find_job.domain.use_case.ApiUseCases.GetRoutes
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.user_use_cases.DeleteUser
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.user_use_cases.GetUser
 import com.didoszak.loadapp.feature_add_find_job.domain.use_case.user_use_cases.InsertUser
@@ -55,7 +56,8 @@ object AppModule {
     fun provideApiUseCases(repository: ApiRepository): ApiUseCases {
         return ApiUseCases(
             getAllLanguages = GetAllLanguages(repository),
-            getAllQualifications = GetAllQualifications(repository)
+            getAllQualifications = GetAllQualifications(repository),
+            getRoutes = GetRoutes(repository)
         )
     }
 

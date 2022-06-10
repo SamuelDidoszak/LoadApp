@@ -8,7 +8,11 @@
     <string name="Repeat_Password">Repeat Password</string>
     <string name="Next">Next</string>
     <string name="Back">Back</string>
+    <string name="Finish">Finish</string>
 
     <string name="Driver">Driver</string>
     <string name="Company">Company</string>
+
+    <string name="Company_name">Company name</string>
+    <string name="NIP">NIP</string>
 </resources>

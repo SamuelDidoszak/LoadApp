@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -24,6 +25,7 @@ fun TextButton(
     text: String = "",
     isColorButton: Boolean = false,
     elevation: Dp = 4.dp,
+    textStyle: TextStyle = MaterialTheme.typography.h6,
     modifier: Modifier = Modifier,
     focused: Boolean = false,
     onClick: () -> Unit
@@ -37,7 +39,7 @@ fun TextButton(
         ),
         modifier = Modifier
             .padding(4.dp)
-            .shadow(4.dp, RectangleShape)
+            .shadow(8.dp, RectangleShape)
             .clickable {
                 onClick()
             }
@@ -50,7 +52,7 @@ fun TextButton(
         ) {
             Text(
                 text = text,
-                style = MaterialTheme.typography.h6,
+                style = textStyle,
                 modifier = Modifier
                     .padding(8.dp)
             )

@@ -13,7 +13,16 @@ sealed class LoginRegisterEvent {
     object SignIn: LoginRegisterEvent()
     object Next: LoginRegisterEvent()
     object Back: LoginRegisterEvent()
+    object Finish: LoginRegisterEvent()
 
     object ClickedDriver: LoginRegisterEvent()
     object ClickedCompany: LoginRegisterEvent()
+
+    data class ActivateLanguage(val id: Int) : LoginRegisterEvent()
+    data class ActivateQualification(val id: Int) : LoginRegisterEvent()
+
+    data class ChangeCompanyNameFocus(val focusState: FocusState): LoginRegisterEvent()
+    data class EnteredCompanyName(val value: String): LoginRegisterEvent()
+    data class ChangeNipFocus(val focusState: FocusState): LoginRegisterEvent()
+    data class EnteredNip(val value: String): LoginRegisterEvent()
 }
