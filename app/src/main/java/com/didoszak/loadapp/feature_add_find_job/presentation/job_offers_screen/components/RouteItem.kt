@@ -1,7 +1,5 @@
-package com.didoszak.loadapp.feature_add_find_job.presentation.job_offers.components
+package com.didoszak.loadapp.feature_add_find_job.presentation.job_offers_screen.components
 
-import android.widget.Space
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
@@ -10,7 +8,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -19,7 +16,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.didoszak.loadapp.feature_add_find_job.data.model.Route
-import kotlin.time.Duration.Companion.days
 
 @Composable
 fun RouteItem(

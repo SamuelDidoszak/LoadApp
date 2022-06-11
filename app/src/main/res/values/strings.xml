@@ -15,4 +15,14 @@
 
     <string name="Company_name">Company name</string>
     <string name="NIP">NIP</string>
+
+    <string name="Start_date">Start date: </string>
+    <string name="End_date">End date: </string>
+    <string name="Pick_date">Pick date</string>
+    <string name="Enter_pay">Enter pay</string>
+    <string name="Description">Description</string>
+    <string name="City_name">City name</string>
+    <string name="Location">Location</string>
+
+    <string name="Post">Post</string>
 </resources>

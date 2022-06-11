@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -35,6 +37,7 @@ fun HintTextField(
     hasError: Boolean = false,
     elevation: Dp = 2.dp,
 
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
     modifier: Modifier = Modifier,
     focused: Boolean = false,
     onValueChange: (String) -> Unit,
@@ -42,11 +45,11 @@ fun HintTextField(
 ) {
     Surface (
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(
-            width = if (focused) 1.dp else 1.dp,
-            color = if (hasError) MaterialTheme.colors.error
-                else if (focused) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
-        ),
+//        border = BorderStroke(
+//            width = if (focused) 1.dp else 1.dp,
+//            color = if (hasError) MaterialTheme.colors.error
+//                else if (focused) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
+//        ),
         elevation = elevation,
         modifier = Modifier
             .padding(4.dp)
@@ -57,6 +60,7 @@ fun HintTextField(
             value = text,
             onValueChange = onValueChange,
             textStyle = textStyle.copy(color = MaterialTheme.colors.onSurface),
+            keyboardOptions = keyboardOptions,
             singleLine = singleLine,
             modifier = Modifier
                 .fillMaxWidth()

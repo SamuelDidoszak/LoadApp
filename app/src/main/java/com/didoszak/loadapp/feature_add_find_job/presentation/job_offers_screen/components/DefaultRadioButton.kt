@@ -1,7 +1,6 @@
-package com.didoszak.loadapp.feature_add_find_job.presentation.job_offers.components
+package com.didoszak.loadapp.feature_add_find_job.presentation.job_offers_screen.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement.Start
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.RadioButtonDefaults

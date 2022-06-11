@@ -1,5 +1,6 @@
 package com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +19,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.didoszak.loadapp.R
 import com.didoszak.loadapp.feature_add_find_job.presentation.login_register_screen.components.HintTextField
+import com.didoszak.loadapp.feature_add_find_job.presentation.util.Screen
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun LoginRegisterScreen(
     viewModel: LoginRegisterViewModel = hiltViewModel(),
@@ -339,6 +342,7 @@ fun LoginRegisterScreen(
                             .width(128.dp),
                         onClick = {
                             viewModel.onEvent(LoginRegisterEvent.Finish)
+                            navController.navigate(Screen.JobOffersScreen.route)
                         }
                     )
                 }

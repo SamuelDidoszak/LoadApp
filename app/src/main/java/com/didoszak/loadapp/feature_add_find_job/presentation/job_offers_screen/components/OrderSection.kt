@@ -1,9 +1,8 @@
-package com.didoszak.loadapp.feature_add_find_job.presentation.job_offers.components
+package com.didoszak.loadapp.feature_add_find_job.presentation.job_offers_screen.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.unit.dp
 import com.didoszak.loadapp.feature_add_find_job.domain.util.OrderType
 import com.didoszak.loadapp.feature_add_find_job.domain.util.RouteOrder

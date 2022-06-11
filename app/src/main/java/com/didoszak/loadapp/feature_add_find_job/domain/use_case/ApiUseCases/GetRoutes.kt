@@ -25,6 +25,8 @@ class GetRoutes(
                 organizationId = 0,
                 organizationName = "C.B.T. inc.",
                 truckName = "volvo",
+                latitude = 50.025730,
+                longitude = 19.971094,
                 city = "Cracow"
             ),
             Route(
@@ -37,6 +39,8 @@ class GetRoutes(
                 organizationId = 1,
                 organizationName = "Punjabi IND",
                 truckName = "shittake",
+                latitude = 51.397966,
+                longitude = 21.155687,
                 city = "Radom"
             ),
             Route(
@@ -49,6 +53,8 @@ class GetRoutes(
                 organizationId = 0,
                 organizationName = "C.B.T. inc.",
                 truckName = "volvo",
+                latitude = 50.082425,
+                longitude = 19.898345,
                 city = "Cracow"
             ),
             Route(
@@ -61,6 +67,8 @@ class GetRoutes(
                 organizationId = 1,
                 organizationName = "Punjabi IND",
                 truckName = "volvo",
+                latitude = 50.060364,
+                longitude = 20.012105,
                 city = "Cracow"
             ),
             Route(
@@ -73,6 +81,8 @@ class GetRoutes(
                 organizationId = 2,
                 organizationName = "Inpost",
                 truckName = "car",
+                latitude = 52.266757,
+                longitude = 21.085863,
                 city = "Warsaw"
             ),
             Route(

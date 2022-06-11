@@ -207,12 +207,20 @@ class LoginRegisterViewModel @Inject constructor(
                     0 -> parseRegisterScreen()
                     1 -> parseDriverCompanyScreen()
                     2 -> parseLanguagesScreen()
-                    3 -> parseQualificationsScreen()
                 }
             }
 
             is LoginRegisterEvent.Back -> {
                 changeScreenNumber(screenNumber.value - 1)
+            }
+
+            is LoginRegisterEvent.Finish -> {
+                if (screenNumber.value == 3)
+                    parseQualificationsScreen()
+                else
+                    parseCompanyScreen()
+
+                /*TODO Send data to the server*/
             }
 
             is LoginRegisterEvent.ClickedDriver -> {
@@ -353,6 +361,10 @@ class LoginRegisterViewModel @Inject constructor(
 
     private fun parseQualificationsScreen() {
         /*TODO Save ids of chosen qualifications*/
+
+    }
+
+    private fun parseCompanyScreen() {
 
     }
 }

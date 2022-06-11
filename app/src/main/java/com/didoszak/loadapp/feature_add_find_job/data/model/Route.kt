@@ -14,7 +14,7 @@ data class Route(
     val organizationName: String,
     val truckName: String? = null,
     val stateId: Int? = null,
-    val coordinateX: Double? = null,
-    val coordinateY: Double? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
     val city: String? = null
 )
