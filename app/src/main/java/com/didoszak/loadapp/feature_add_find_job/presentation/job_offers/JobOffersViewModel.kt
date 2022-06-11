@@ -44,6 +44,20 @@ class JobOffersViewModel @Inject constructor(
             is JobOffersEvent.CityClicked -> {
                 Log.d("ROUTE", "CITY Clicked: " + event.id)
             }
+            is JobOffersEvent.ShowSorting -> {
+                _jobOffersState.value = jobOffersState.value.copy(
+                    showSorting = !jobOffersState.value.showSorting
+                )
+            }
+            is JobOffersEvent.Order -> {
+                if(jobOffersState.value.routeOrder::class == event.routeOrder::class &&
+                    jobOffersState.value.routeOrder.orderType == event.routeOrder.orderType)
+                    return
+                _jobOffersState.value = jobOffersState.value.copy(
+                    routeOrder = event.routeOrder
+                )
+                apiUseCases.getRoutes(event.routeOrder)
+            }
         }
     }
 }

@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoadApp"
         tools:targetApi="31">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB0V_Ra4WNttxQLPD_G0AQ-CYVfHuvEmR8"/>
         <activity
             android:name=".feature_add_find_job.presentation.MainActivity"
             android:exported="true"

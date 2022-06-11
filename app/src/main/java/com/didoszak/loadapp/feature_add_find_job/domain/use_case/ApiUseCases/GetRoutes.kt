@@ -3,13 +3,17 @@ package com.didoszak.loadapp.feature_add_find_job.domain.use_case.ApiUseCases
 import com.didoszak.loadapp.feature_add_find_job.data.model.Qualification
 import com.didoszak.loadapp.feature_add_find_job.data.model.Route
 import com.didoszak.loadapp.feature_add_find_job.domain.repository.ApiRepository
+import com.didoszak.loadapp.feature_add_find_job.domain.util.OrderType
 import com.didoszak.loadapp.feature_add_find_job.domain.util.Resource
+import com.didoszak.loadapp.feature_add_find_job.domain.util.RouteOrder
 import java.util.*
 
 class GetRoutes(
     private val repository: ApiRepository
 ) {
-    suspend operator fun invoke(): List<Route> {
+    operator fun invoke(
+        routeOrder: RouteOrder = RouteOrder.Date(OrderType.Descending)
+        ): List<Route> {
         return listOf(
             Route(
                 id = 0,

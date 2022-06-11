@@ -31,10 +31,10 @@ fun RouteItem(
 ) {
     Surface(
         shape = RoundedCornerShape(16.dp),
-        border = BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colors.onSurface
-        ),
+//        border = BorderStroke(
+//            width = 1.dp,
+//            color = MaterialTheme.colors.onSurface
+//        ),
         elevation = 2.dp,
         modifier = Modifier
             .shadow(8.dp, RectangleShape)
